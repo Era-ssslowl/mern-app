@@ -1,36 +1,56 @@
-import React from "react";
-import { Form, Input, Button, Card, Typography } from "antd";
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const { Title } = Typography;
+const Login = () => {
 
-const LoginPage = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
+    const pageStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        margin: '0 auto',
+        height: '100vh',
+       
 
-  return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      <Card style={{ width: 350, padding: 20, textAlign: "center", boxShadow: "0px 4px 10px rgba(0,0,0,0.15)" }}>
-        <Title level={2}>Tattistom</Title>
-        <Title level={3}>Login</Title>
-        <Form name="login" layout="vertical" onFinish={onFinish}>
-          <Form.Item name="email" label="Email" rules={[{ required: true, message: "Please enter your email!" }]}>
-            <Input placeholder="Enter your email" />
-          </Form.Item>
+    }
 
-          <Form.Item name="password" label="Password" rules={[{ required: true, message: "Please enter your password!" }]}>
-            <Input.Password placeholder="Enter your password" />
-          </Form.Item>
+    const formStyle = { 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        border: '3px solid black',
+        width: '450px',
+        height: '400px',
+        // boxShadow: '0 10px 20px rgba(0, 0, 0, 0.75)'
+    }
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit" block>
-              Login
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-    </div>
-  );
+    const childStyle = {
+        marginTop: '20px'
+    }
+
+
+
+
+
+
+    return (
+        <div className='login-form' style={pageStyle}>
+           
+            <form style={formStyle} className='shadow-lg'>
+                <h2>Welcome</h2>
+                <div className="nes-field" style={childStyle}>
+                    <label htmlFor="login_field">Login</label>
+                    <input type="text" id="login_field" name="login" className="nes-input" />
+                </div>
+                <div className="nes-field" style={childStyle}>
+                    <label htmlFor="password_field">Password</label>
+                    <input type="text" id="password_field" name="login" className="nes-input" />
+                </div>
+                <button type="submit" className="nes-btn is-primary" style={childStyle}>Login</button>
+            </form>
+        </div>
+    );
 };
 
-export default LoginPage;
+export default Login;

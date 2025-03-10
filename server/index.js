@@ -49,6 +49,7 @@ const errorHandler = (err, req, res, next) => {
 
 
 
+
 app.get("/readfile", (req, res, next) => {
   fs.readFile("data.txt", "utf8", (err, data) => {
     if(err) {
@@ -68,10 +69,32 @@ app.post("/register", async (req, res, next) => {
   try{
     const { name, email, password } = req.body;
     const user = new User({name, email, password});
-    await user.save();
-
-    res.status(201).json({message: "User created"})
+    if (!name || !email || !password) {
+      res.status(400).json({ error: "Please fill all fields" });
+    }else{
+      await user.save();
+      res.status(201).json({message: "User created"})
+    }
   }catch (error) {
+    next(error);
+  }
+})
+
+app.post("/login", async (req, res, next) => {
+  try{
+    const { email, password } = req.body;
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      res.status(400).json({ error: "User not found" });
+    }else{
+      if (password === user.password) {
+        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
+        res.json({ message: "Login successful", token });
+      }else{
+        res.status(400).json({ error: "Invalid credentials" });
+      }
+    }
+  }catch(error){
     next(error);
   }
 })
@@ -79,7 +102,7 @@ app.post("/register", async (req, res, next) => {
 
 app.get("/users", async (req, res, next) => {
   try{
-    const users = User.find();
+    const users = await User.find();  
     res.json(users);
 
   }catch(error){
