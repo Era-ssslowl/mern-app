@@ -10,21 +10,23 @@ const api = axios.create({
 });
 
 // Добавляем интерцептор для токена (если требуется авторизация)
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+
+
+const handleRequest = async (request) => {
+    try{
+        const response = await request;
+        return {data: response.data, error: null};
+    } catch (error) {
+        console.error("API request error:", error.response?.data?.message || error.message);
+        return { data: null, error: error.response?.data?.message || "Ошибка запроса" };
     }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+
+}
 
 // Функции API-запросов
 const apiRequests = {
   // Получить список альбомов
-  getAlbums: () => api.get("/albums"),
+  Authorize: (AuthData) => handleRequest(() => api.post("/login", AuthData)),
 };
 
 export default apiRequests;

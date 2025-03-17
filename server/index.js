@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const { decode } = require("punycode");
+const cors = require("cors")
 
 dotenv.config();
 const app = express()
@@ -16,6 +17,11 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.log(err));
 
+app.use(cors({
+    origin: "http://localhost:3000",  // Разрешенный источник
+    methods: "GET,POST,PUT,DELETE",   // Разрешенные HTTP-методы
+    credentials: true                 // Если используете куки или авторизацию
+}));
 app.use(morgan("dev"));
 app.use(express.json());
 
@@ -83,9 +89,12 @@ app.post("/register", async (req, res, next) => {
 app.post("/login", async (req, res, next) => {
   try{
     const { email, password } = req.body;
+    console.log(email, password)
     const user = await User.findOne({ email: email });
     if (!user) {
+      console.log("before")
       res.status(400).json({ error: "User not found" });
+      console.log("after")
     }else{
       if (password === user.password) {
         const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
