@@ -38,7 +38,7 @@ const Login = () => {
             console.log(login, password)
 
             const response = await axios.post("http://localhost:5000/login", {
-                email: login,
+            email: login,
                 password
             });
 
@@ -48,6 +48,7 @@ const Login = () => {
             setLogin('');
             setPassword('');
         } catch (err) {
+            console.log("testing commit")
             console.error("API Request Failed:", err);
             setError(err.response?.data?.message || "Login failed. Please try again.");
         }
