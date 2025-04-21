@@ -1,31 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'nes.css/css/nes.min.css';
+import { loginUser } from '../api/auth';
 
 const Login = () => {
-    const pageStyle = {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        margin: '0 auto',
-        height: '100vh',
-    };
-
-    const formStyle = {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        border: '3px solid black',
-        width: '450px',
-        height: '400px',
-    };
-
-    const childStyle = {
-        marginTop: '20px'
-    };
-
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -35,16 +14,8 @@ const Login = () => {
         setError(null);
 
         try {
-            console.log(login, password)
-
-            const response = await axios.post("http://localhost:5000/login", {
-                email: login,
-                password
-            });
-
+            const data = await loginUser(login, password);
             console.log("Login Successful:", response.data);
-
-            // Clear input fields after successful login
             setLogin('');
             setPassword('');
         } catch (err) {
@@ -54,33 +25,40 @@ const Login = () => {
     };
 
     return (
-        <div className='login-form' style={pageStyle}>
-            <form style={formStyle} className='shadow-lg' onSubmit={handleSubmit}>
-                <h2>Welcome</h2>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                <div className="nes-field" style={childStyle}>
-                    <label htmlFor="login_field">Login</label>
+        <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+            <form 
+                className="nes-container with-title shadow p-4" 
+                style={{ width: '400px' }} 
+                onSubmit={handleSubmit}
+            >
+                <p className="title">Login</p>
+                {error && <p className="text-danger">{error}</p>}
+
+                <div className="mb-3">
+                    <label htmlFor="login_field" className="form-label">Login</label>
                     <input 
-                        type="text" 
-                        id="login_field" 
-                        name="login" 
-                        className="nes-input" 
-                        value={login} 
-                        onChange={e => setLogin(e.target.value)}  
+                        type="text"
+                        id="login_field"
+                        name="login"
+                        className="nes-input is-primary"
+                        value={login}
+                        onChange={e => setLogin(e.target.value)}
                     />
                 </div>
-                <div className="nes-field" style={childStyle}>
-                    <label htmlFor="password_field">Password</label>
+
+                <div className="mb-3">
+                    <label htmlFor="password_field" className="form-label">Password</label>
                     <input 
-                        type="password" 
-                        id="password_field" 
-                        name="password" 
-                        className="nes-input" 
-                        value={password} 
-                        onChange={e => setPassword(e.target.value)} 
+                        type="password"
+                        id="password_field"
+                        name="password"
+                        className="nes-input is-primary"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
                     />
                 </div>
-                <button type="submit" className="nes-btn is-primary" style={childStyle}>
+
+                <button type="submit" className="nes-btn is-primary w-100">
                     Login
                 </button>
             </form>
