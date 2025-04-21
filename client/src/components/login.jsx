@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'nes.css/css/nes.min.css';
 import { loginUser } from '../api/auth';
@@ -15,12 +14,12 @@ const Login = () => {
 
         try {
             const data = await loginUser(login, password);
-            console.log("Login Successful:", response.data);
+            console.log("Login Successful:", data);
             setLogin('');
             setPassword('');
         } catch (err) {
             console.error("API Request Failed:", err);
-            setError(err.response?.data?.message || "Login failed. Please try again.");
+            setError(err.data?.message || "Login failed. Please try again.");
         }
     };
 
