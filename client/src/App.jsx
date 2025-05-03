@@ -3,8 +3,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css'
 import "nes.css/css/nes.min.css";
-import Login from "./components/login";
-import Register from "./components/register";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import AuthTest from "./pages/AuthenticationTest";
+import AuthLayout from "./layouts/authLayout";
+import MainLayout from "./layouts/mainLayout";
 
 function App() {
 
@@ -12,8 +15,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element = {<Login/>} />
-        <Route path="/register" element = {<Register/>} />
+
+        <Route element={<AuthLayout/>}>
+          <Route path="/login" element = {<Login/>} />
+          <Route path="/register" element = {<Register/>} />
+        </Route>
+        <Route element={<MainLayout/>}>
+          <Route path="/protected" element = {<AuthTest/>} />
+        </Route>
       </Routes>
     </Router>
   );

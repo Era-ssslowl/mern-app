@@ -28,9 +28,12 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
+    volumes:
+      - ./client:/app
     container_name: frontend
     ports:
       - "3000:3000"
+    command: npm start
     depends_on:
       - backend
 

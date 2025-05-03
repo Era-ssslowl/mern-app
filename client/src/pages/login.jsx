@@ -25,13 +25,13 @@ const Login = () => {
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+        <div className="d-flex justify-content-center align-items-center vh-100">
             <form 
-                className="nes-container with-title shadow p-4" 
+                className="nes-container with-title shadow p-4  d-flex flex-column justify-content-center align-items-center" 
                 style={{ width: '400px' }} 
                 onSubmit={handleSubmit}
             >
-                <p className="title">Login</p>
+                <p className="mb-3 align-text-center">Login</p>
                 {error && <p className="text-danger">{error}</p>}
 
                 <div className="mb-3">
