@@ -9,37 +9,19 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-    networks:
-      - mern-net
 
-  # Backend Base Config (Node.js + Express)
-  backend1:
-    &backend-template
+  # Backend Service (Node.js + Express)
+  backend:
     build:
       context: ./server
       dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "5000:5000"
     environment:
       - MONGO_URI=mongodb://mongo:27017/mern-app
-    networks:
-      - mern-net
-
-  backend2:
-    <<: *backend-template
-    container_name: backend2
-
-  # Nginx Load Balancer
-  loadbalancer:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    container_name: loadbalancer
-    ports:
-      - "5000:80"
     depends_on:
-      - backend1
-      - backend2
-    networks:
-      - mern-net
+      - mongo
 
   # Frontend Service (React)
   frontend:
@@ -53,12 +35,8 @@ services:
       - "3000:3000"
     command: npm start
     depends_on:
-      - loadbalancer
-    networks:
-      - mern-net
+      - backend
 
+# Volumes for persistent data
 volumes:
   mongo-data:
-
-networks:
-  mern-net:
