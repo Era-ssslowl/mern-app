@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { registerUser } from "../api/auth";
 
 const Register = () => {
     const pageStyle = {
@@ -42,11 +43,13 @@ const Register = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:5000/register", {
-                name,
-                email,
-                password,
-            });
+            // const response = await axios.post("http://localhost:5000/register", {
+            //     name,
+            //     email,
+            //     password,
+            // });
+
+            const response  = await registerUser(email, password, name)
 
             setMessage(response.data.message); // "User created"
             setName("");

@@ -7,10 +7,9 @@ import Sidebar from '../components/Sidebar'
 
 const MainLayout = () => {
     return (
-        <div className='w-100'>
+        <div className='w-100 h-100'>
             <Header/>
             <div className='d-flex'>
-                <Sidebar/>
                 <Outlet/>
             </div>
     
